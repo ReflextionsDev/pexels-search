@@ -37,15 +37,15 @@ export default function Photos(props) {
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
     const md = useMediaQuery(theme.breakpoints.down('md'));
     const lg = useMediaQuery(theme.breakpoints.down('lg'));
-  
+
 
 
 
 
     console.log('matches?', sm)
-    console.log('columns:', getColumns(sm,md,lg))
+    console.log('columns:', getColumns(sm, md, lg))
 
-    let columns = getColumns(sm,md,lg)
+    let columns = getColumns(sm, md, lg)
 
     console.log('props', props)
 
@@ -74,33 +74,20 @@ export default function Photos(props) {
                                 <ListSubheader component="div">December</ListSubheader>
                             </ImageListItem>
 
-                            {photos.map((photo, idx) =>
+                            {photos.map((photo, idx) => {
 
-                                <ImageListItem key={idx}>
-                                    {/* {photo.src.small} */}
-                                    {/* componetize this into a photo */}
-                                    {/* <img src={photo.src.small}></img> */}
-                                    {/* <Photo src={photo.src.small} alt={photo.alt} /> */}
+                                const props = {
+                                    src: photo.src.small,
+                                    alt: photo.alt,
+                                    idx: idx,
+                                    author: photo.photographer,
+                                    url: photo.photographer_url,
+                                }
 
-                                    <img
-                                        src={`${photo.src.small}?w=248&fit=crop&auto=format`}
-                                        srcSet={`${photo.src.small}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                        alt={photo.alt}
-                                        loading="lazy"
-                                    />
+                                return <Photo {...props} />
 
-                                    <ImageListItemBar
+                            }
 
-                                        title={`${photo.photographer}`}
-                                        subtitle=<Link href={photo.photographer_url} color="inherit" target="author">
-                                            {photo.photographer_url.split('@')[1]}
-
-                                        </Link>
-
-                              
-                                    />
-
-                                </ImageListItem>
                             )
                             }
                         </ImageList>
