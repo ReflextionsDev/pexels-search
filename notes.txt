@@ -1,0 +1,1 @@
+Need cookies to store session > page number, and search query, if no query default to curated
