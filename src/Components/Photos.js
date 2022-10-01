@@ -30,10 +30,10 @@ export default function Photos(props) {
 
 
     // Not workin?
-    // React.useEffect(() => {
-    //     window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
-    //     console.log('RESIZE')
-    // }, []);
+    React.useEffect(() => {
+        window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
+        console.log('RESIZE')
+    }, []);
 
 
 
@@ -41,7 +41,7 @@ export default function Photos(props) {
     console.log('columns:', getColumns(sm, md, lg))
 
 
-    const [columns] = useState((getColumns(sm, md, lg))
+    const [columns, setColumns] = useState((getColumns(sm, md, lg))
     )
 
 
@@ -70,7 +70,7 @@ export default function Photos(props) {
                             url: photo.photographer_url,
                         }
 
-                        return <Photo {...props} key={idx} />
+                        return <Photo {...props} key={`Photo-${idx}`} />
 
                     })}
                 </ImageList>

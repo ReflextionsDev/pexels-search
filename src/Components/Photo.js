@@ -8,10 +8,27 @@ export default function Photo(props) {
     const [loaded, setLoaded] = useState(false)
     const { src, alt, idx, author, url } = props
 
+    const onLoad = () => {
+        console.log('Photo Loaded')
+        setLoaded(true)
+    }
+
     return (
-        <ImageListItem key={idx} style={{
+        <ImageListItem key={`ImageListItem-${idx}`} style={{
             height: "30vh",
         }}>
+
+            <img
+                style={{ display: loaded ? 'block' : 'none' }}
+                // onLoad={() => { setLoaded(true) }}
+                onLoad={onLoad}
+                src={src}
+                // src={`${src}?w=248&fit=crop&auto=compress`}
+                // srcSet={`${src}?w=248&fit=crop&auto=compress&dpr=2 2x`}
+                alt={alt}
+                // loading="lazy"
+                height="30vh"
+            />
 
             {!loaded &&
                 <div
@@ -25,16 +42,7 @@ export default function Photo(props) {
                 </div>
             }
 
-            <img
-                style={{ display: loaded ? 'block' : 'none' }}
-                onLoad={() => { setLoaded(true) }}
-                src={src}
-                // src={`${src}?w=248&fit=crop&auto=compress`}
-                // srcSet={`${src}?w=248&fit=crop&auto=compress&dpr=2 2x`}
-                alt={alt}
-                loading="lazy"
-                height="30vh"
-            />
+
 
             {loaded &&
                 <ImageListItemBar
