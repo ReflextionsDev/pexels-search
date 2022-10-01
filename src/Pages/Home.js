@@ -1,8 +1,8 @@
-import { Pagination, Box, Button, TextField, Stack, } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { Pagination, Box, Button, TextField, Stack, } from '@mui/material'
 import Photos from '../Components/Photos'
 
-const domain = 'http://localhost:3000'
+const api_url = 'http://localhost:3001/pexels'
 
 export default function Home() {
 
@@ -10,11 +10,10 @@ export default function Home() {
     const [page, setPage] = useState(parseInt(localStorage.getItem('page')) || 1)
     const [pageCount, setPageCount] = useState(10)
     const [query, setQuery] = useState(localStorage.getItem('query') || '')
-    const [curated, setCurated] = useState(JSON.parse(localStorage.getItem("curated")) || true)
+    const [curated, setCurated] = useState(true)
     const [photos, setPhotos] = useState()
 
     // Local
-    localStorage.setItem('curated', curated);
     localStorage.setItem('page', page);
     localStorage.setItem('query', query);
 
@@ -24,9 +23,9 @@ export default function Home() {
             let request = ''
 
             if (curated) {
-                request = `${domain}/pexels/curated/${page}`
+                request = `${api_url}/curated/${page}`
             } else {
-                request = `${domain}/pexels/search/${query}/${page}`
+                request = `${api_url}/search/${query}/${page}`
             }
 
             const response = await fetch(request, {})
@@ -71,40 +70,41 @@ export default function Home() {
 
     return (
         <div>
-  
-  
+            {/* Search bar */}
             <Box display="flex" justifyContent="center" sx={{ p: 2, bgcolor: '#e0edff', boxShadow: 3, }} >
                 <Stack
                     direction={{ xs: 'column', sm: 'row' }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}
                 >
+                    {/* Search query */}
                     <TextField variant="outlined" label="Search"
                         value={query}
                         onChange={(e) => { setQuery(e.target.value) }}
                     />
-                    <Button
-                        variant="contained"
-                        onClick={btnSearch}
-                    >Search</Button>
+                    {/* Request w/ search query */}
                     <Button variant="contained"
-                        onClick={btnReset}>Reset</Button>
+                        onClick={btnSearch}>
+                        Search
+                    </Button>
+                    {/* Reset request to curated */}
+                    <Button variant="contained"
+                        onClick={btnReset}>
+                        Reset
+                    </Button>
                 </Stack>
             </Box>
 
+            {/* Photos */}
             <Photos photos={photos} />
 
-
-
-
+            {/* Pagination */}
             <Box display="flex" justifyContent="center">
                 <Pagination sx={{ p: 2 }} color="primary"
                     count={pageCount}
-                    // onChange={changePage}
                     page={page}
                     onChange={(e, value) => { setPage(value) }}
                 />
             </Box>
-
         </div>
     )
 }
