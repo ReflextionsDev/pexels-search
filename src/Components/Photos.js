@@ -1,6 +1,6 @@
 // rename to grid or smth
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Photo from './Photo'
 
 import Button from '@mui/material/Button';
@@ -20,6 +20,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 
 function getColumns(sm, md, lg) {
+ 
     if (sm) { return 2 }
     else if (md) { return 3 }
     else if (lg) { return 4 }
@@ -40,18 +41,26 @@ export default function Photos(props) {
 
 
 
-
+    React.useEffect(() => {
+        window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
+        console.log('RESIZE')
+    }, []);
 
     console.log('matches?', sm)
     console.log('columns:', getColumns(sm, md, lg))
 
-    let columns = getColumns(sm, md, lg)
+
+    const [columns, setColumns] = useState((getColumns(sm, md, lg))
+    )
+
 
     console.log('props', props)
 
     const { photos } = props
 
     console.log('yo', photos)
+
+
 
     return (
 
@@ -77,14 +86,14 @@ export default function Photos(props) {
                             {photos.map((photo, idx) => {
 
                                 const props = {
-                                    src: photo.src.small,
+                                    src: photo.src.medium,
                                     alt: photo.alt,
                                     idx: idx,
                                     author: photo.photographer,
                                     url: photo.photographer_url,
                                 }
 
-                                return <Photo {...props} />
+                                return <Photo {...props} key={idx}/>
 
                             }
 
@@ -95,7 +104,15 @@ export default function Photos(props) {
 
                     )
 
-                    || <Skeleton />
+                    ||
+
+                    <div
+                        style={{
+                            height: "80vh",
+                        }}
+                    >
+                        <Skeleton height="100%" />
+                    </div>
                 }
 
 

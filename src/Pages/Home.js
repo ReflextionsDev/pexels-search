@@ -18,6 +18,7 @@ import Photos from '../Components/Photos'
 
 export default function Home() {
 
+    const dummyPhotos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const [photos, setPhotos] = useState()
 
 
@@ -32,11 +33,11 @@ export default function Home() {
 
         setPhotos(JSON.payload.photos)
         console.log('photos:', photos)
-     
+
 
     }
 
-   
+
     useEffect(() => {
         fetchCurated()
     }, [])
