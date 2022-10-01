@@ -6,7 +6,7 @@ const api_url = 'http://localhost:3001/pexels'
 
 // Translate curated local storage to boolean
 let curatedInit = true
-(localStorage.getItem('curated') === "false") {
+if (localStorage.getItem('curated') === "false") {
     curatedInit = false
 }
 
