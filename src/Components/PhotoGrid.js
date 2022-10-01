@@ -12,7 +12,7 @@ function getColumns(sm, md) {
     else { return 5 }
 }
 
-// Photos manages a responsive MUI ImageList, populating when loaded or displaying a skeleton loader 
+// PhotoGrid manages a responsive MUI ImageList, populating when loaded or displaying a skeleton loader 
 export default function PhotoGrid(props) {
 
     // Breakpoint Queries

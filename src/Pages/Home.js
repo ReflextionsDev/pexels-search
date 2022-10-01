@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Pagination, Box, Button, TextField, Stack, } from '@mui/material'
-import Photos from '../Components/Photos'
+import PhotoGrid from '../Components/PhotoGrid'
 
 const api_url = 'http://localhost:3001/pexels'
 
@@ -71,6 +71,7 @@ export default function Home() {
 
     const btnReset = () => {
         setCurated(true)
+        setQuery('')
         newRequest()
     }
 
@@ -106,7 +107,7 @@ export default function Home() {
             </Box>
 
             {/* Photos */}
-            <Photos photos={photos} />
+            <PhotoGrid photos={photos} />
 
             {/* Pagination */}
             <Box display="flex" justifyContent="center">
