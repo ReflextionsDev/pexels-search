@@ -29,31 +29,24 @@ export default function Photos(props) {
 
     // Not workin?
     React.useEffect(() => {
-        
+
 
         function handleResize() {
-            console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
             setColumns(getColumns(sm, md,))
 
-    }
-     window.addEventListener('resize', handleResize)
-     
-});
+        }
+        window.addEventListener('resize', handleResize)
+
+    });
 
 
-
-    console.log('matches?', sm)
-    console.log('columns:', getColumns(sm, md, ))
 
     const [columns, setColumns] = useState(getColumns(sm, md,))
 
 
 
-    console.log('props', props)
 
     const { photos } = props
-
-    console.log('yo', photos)
 
 
 

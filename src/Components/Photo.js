@@ -9,7 +9,6 @@ export default function Photo(props) {
     const { src, alt, idx, author, url } = props
 
     const onLoad = () => {
-        console.log('Photo Loaded')
         setLoaded(true)
     }
 
@@ -20,13 +19,11 @@ export default function Photo(props) {
 
             <img
                 style={{ display: loaded ? 'block' : 'none' }}
-                // onLoad={() => { setLoaded(true) }}
                 onLoad={onLoad}
                 src={src}
                 // src={`${src}?w=248&fit=crop&auto=compress`}
                 // srcSet={`${src}?w=248&fit=crop&auto=compress&dpr=2 2x`}
                 alt={alt}
-                // loading="lazy"
                 height="30vh"
             />
 
