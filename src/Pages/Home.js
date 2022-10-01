@@ -9,17 +9,19 @@ export default function Home() {
     // Component Vars
     const [page, setPage] = useState(parseInt(localStorage.getItem('page')) || 1)
     const [pageCount, setPageCount] = useState(10)
-    const [query, setQuery] = useState(localStorage.getItem('query') || '')
+    // const [query, setQuery] = useState(localStorage.getItem('query') || '')
+    const [query, setQuery] = useState('')
     const [curated, setCurated] = useState(true)
     const [photos, setPhotos] = useState()
 
     // Local
     localStorage.setItem('page', page);
-    localStorage.setItem('query', query);
+    // localStorage.setItem('query', query);
 
     // Dynamically fetch either curated or a search query
     const fetchPhotos = async () => {
         try {
+
             let request = ''
 
             if (curated) {
@@ -28,7 +30,9 @@ export default function Home() {
                 request = `${api_url}/search/${query}/${page}`
             }
 
-            const response = await fetch(request, {})
+            const response = await fetch(request, {
+                mode: 'cors',
+            })
             let JSON = await response.json()
 
             setPhotos(JSON.payload.photos)
@@ -44,7 +48,7 @@ export default function Home() {
     // Refetch photos on page update
     useEffect(() => {
         fetchPhotos()
-    }, [page])
+    }, [page, curated])
 
     // Calc total pages
     const updatePageCount = (total, perPage) => {
@@ -60,7 +64,6 @@ export default function Home() {
 
     const btnReset = () => {
         setCurated(true)
-        newRequest()
     }
 
     const newRequest = () => {
