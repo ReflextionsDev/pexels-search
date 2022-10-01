@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
 import { ImageListItem, ImageListItemBar, Link } from '@mui/material';
+import Skeleton from 'react-loading-skeleton'
 
-
+// The photo component hides the image while loading and displays a skelton loader
 export default function Photo(props) {
 
-    const [loaded, setLoaded] = useState(false)
+    // Props provided by Photos mapping
     const { src, alt, idx, author, url } = props
 
+    // Controls image visibility
+    const [loaded, setLoaded] = useState(false)
     const onLoad = () => {
         setLoaded(true)
     }
@@ -17,6 +19,7 @@ export default function Photo(props) {
             height: "30vh",
         }}>
 
+            {/* Image - is hidden if loading */}
             <img
                 style={{ display: loaded ? 'block' : 'none' }}
                 onLoad={onLoad}
@@ -27,6 +30,7 @@ export default function Photo(props) {
                 height="30vh"
             />
 
+            {/* Skeleton Loader */}
             {!loaded &&
                 <div
                     style={{
@@ -39,8 +43,7 @@ export default function Photo(props) {
                 </div>
             }
 
-
-
+            {/* Image details, hidden if loading */}
             {loaded &&
                 <ImageListItemBar
                     title={`${author || ''}`}

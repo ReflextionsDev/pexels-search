@@ -5,11 +5,9 @@ import Photos from '../Components/Photos'
 const api_url = 'http://localhost:3001/pexels'
 
 // Translate curated local storage to boolean
-let curatedInit = true
-if (localStorage.getItem('curated') === "false") {
-    curatedInit = false
-}
+let curatedInit = (localStorage.getItem('curated') === "false") ? false : true
 
+// The photo display page
 export default function Home() {
 
     // Component Vars
@@ -20,49 +18,52 @@ export default function Home() {
     const [photos, setPhotos] = useState()
 
     // Local
-    localStorage.setItem('page', page);
-    localStorage.setItem('query', query);
-    localStorage.setItem('curated', curated);
+    localStorage.setItem('page', page)
+    localStorage.setItem('query', query)
+    localStorage.setItem('curated', curated)
 
-    // Dynamically fetch either curated or a search query
+    // API
     const fetchPhotos = async () => {
         try {
-
+            // Dynamically fetch either a curated or a search query request
             let request = ''
-
             if (curated) {
                 request = `${api_url}/curated/${page}`
             } else {
                 request = `${api_url}/search/${query}/${page}`
             }
 
+            // API GET
             const response = await fetch(request, {
                 mode: 'cors',
             })
             let JSON = await response.json()
 
+            // THEN
             setPhotos(JSON.payload.photos)
             updatePageCount(JSON.payload.total_results, JSON.payload.per_page)
 
+            // Debug
             // console.log('REQUEST', request)
             // console.log(JSON.payload)
+
         } catch (error) {
             console.log('fetch error', error)
         }
     }
 
-    // Refetch photos on page update
+    // Monitor page and curated variabled to update photos
     useEffect(() => {
         fetchPhotos()
     }, [page, curated])
 
-    // Calc total pages
+    // Calc total pages for pagination display
     const updatePageCount = (total, perPage) => {
         const totalPages = Math.ceil(total / perPage)
         setPageCount(totalPages)
     }
 
-    // Buttons
+    // Button functions
     const btnSearch = () => {
         setCurated(false)
         newRequest()
@@ -70,6 +71,7 @@ export default function Home() {
 
     const btnReset = () => {
         setCurated(true)
+        newRequest()
     }
 
     const newRequest = () => {
@@ -114,6 +116,9 @@ export default function Home() {
                     onChange={(e, value) => { setPage(value) }}
                 />
             </Box>
+
+            {/* Attribution */}
+            <a href="https://www.pexels.com" target="new">Photos provided by Pexels</a>
         </div>
     )
 }
