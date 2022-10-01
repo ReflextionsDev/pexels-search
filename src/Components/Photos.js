@@ -10,10 +10,9 @@ import { useTheme } from '@mui/material/styles';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-function getColumns(sm, md, lg) {
+function getColumns(sm, md) {
     if (sm) { return 2 }
     else if (md) { return 3 }
-    else if (lg) { return 4 }
     else { return 5 }
 }
 
@@ -26,23 +25,28 @@ export default function Photos(props) {
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
     const md = useMediaQuery(theme.breakpoints.down('md'));
-    const lg = useMediaQuery(theme.breakpoints.down('lg'));
 
 
     // Not workin?
     React.useEffect(() => {
-        window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
-        console.log('RESIZE')
-    }, []);
+        
+
+        function handleResize() {
+            console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
+            setColumns(getColumns(sm, md,))
+
+    }
+     window.addEventListener('resize', handleResize)
+     
+});
 
 
 
     console.log('matches?', sm)
-    console.log('columns:', getColumns(sm, md, lg))
+    console.log('columns:', getColumns(sm, md, ))
 
+    const [columns, setColumns] = useState(getColumns(sm, md,))
 
-    const [columns, setColumns] = useState((getColumns(sm, md, lg))
-    )
 
 
     console.log('props', props)
@@ -58,7 +62,7 @@ export default function Photos(props) {
 
 
             {(photos &&
-                <ImageList cols={columns}  >
+                <ImageList cols={columns} variant="quilted"  >
 
                     {photos.map((photo, idx) => {
 
@@ -85,6 +89,6 @@ export default function Photos(props) {
                 </div>
             }
 
-            </Container>
+        </Container>
     )
 }

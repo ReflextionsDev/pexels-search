@@ -1,23 +1,59 @@
-import { Container, Pagination, Box } from '@mui/material'
-import { Button, TextField, Stack, Item, } from '@mui/material'
+import { Pagination, Box, Button, TextField, Stack, } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import Footer from '../Components/Footer'
-import Header from '../Components/Header'
 import Photos from '../Components/Photos'
 
 const domain = 'http://localhost:3000'
 
-// Will need to adjust later based on cache
-// Fetch curated on load
-
 export default function Home() {
 
-    const [page, setPage] = useState(1)
+    // Component Vars
+    const [page, setPage] = useState(parseInt(localStorage.getItem('page')) || 1)
     const [pageCount, setPageCount] = useState(10)
-    const [query, setQuery] = useState('')
-    const [curated, setCurated] = useState(true)
+    const [query, setQuery] = useState(localStorage.getItem('query') || '')
+    const [curated, setCurated] = useState(JSON.parse(localStorage.getItem("curated")) || true)
     const [photos, setPhotos] = useState()
 
+    // Local
+    localStorage.setItem('curated', curated);
+    localStorage.setItem('page', page);
+    localStorage.setItem('query', query);
+
+    // Dynamically fetch either curated or a search query
+    const fetchPhotos = async () => {
+        try {
+            let request = ''
+
+            if (curated) {
+                request = `${domain}/pexels/curated/${page}`
+            } else {
+                request = `${domain}/pexels/search/${query}/${page}`
+            }
+
+            const response = await fetch(request, {})
+            let JSON = await response.json()
+
+            setPhotos(JSON.payload.photos)
+            updatePageCount(JSON.payload.total_results, JSON.payload.per_page)
+
+            // console.log('REQUEST', request)
+            // console.log(JSON.payload)
+        } catch (error) {
+            console.log('fetch error', error)
+        }
+    }
+
+    // Refetch photos on page update
+    useEffect(() => {
+        fetchPhotos()
+    }, [page])
+
+    // Calc total pages
+    const updatePageCount = (total, perPage) => {
+        const totalPages = Math.ceil(total / perPage)
+        setPageCount(totalPages)
+    }
+
+    // Buttons
     const btnSearch = () => {
         setCurated(false)
         newRequest()
@@ -33,47 +69,10 @@ export default function Home() {
         fetchPhotos()
     }
 
-    const fetchPhotos = async () => {
-        try {
-
-            let request = ''
-
-            if (curated) {
-                request = `${domain}/pexels/curated/${page}`
-            } else {
-                request = `${domain}/pexels/search/${query}/${page}`
-            }
-
-            console.log('REQUEST', request)
-
-            const response = await fetch(request, {})
-            let JSON = await response.json()
-            setPhotos(JSON.payload.photos)
-
-            console.log(JSON.payload)
-            // console.log('photos:', photos)
-
-            updatePageCount(JSON.payload.total_results, JSON.payload.per_page)
-
-
-        } catch (error) {
-            console.log('fetch error', error)
-        }
-    }
-
-    const updatePageCount = (total, perPage) => {
-        console.log(total, perPage)
-        const totalPages = Math.ceil(total / perPage)
-        setPageCount(totalPages)
-    }
-
-    useEffect(() => {
-        fetchPhotos()
-    }, [page])
-
     return (
         <div>
-            {/* <Header /> */}
+  
+  
             <Box display="flex" justifyContent="center" sx={{ p: 2, bgcolor: '#e0edff', boxShadow: 3, }} >
                 <Stack
                     direction={{ xs: 'column', sm: 'row' }}
@@ -94,7 +93,9 @@ export default function Home() {
 
             <Photos photos={photos} />
 
-            {/* <Footer /> */}
+
+
+
             <Box display="flex" justifyContent="center">
                 <Pagination sx={{ p: 2 }} color="primary"
                     count={pageCount}
@@ -103,6 +104,7 @@ export default function Home() {
                     onChange={(e, value) => { setPage(value) }}
                 />
             </Box>
+
         </div>
     )
 }
