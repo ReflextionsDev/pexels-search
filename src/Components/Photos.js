@@ -31,11 +31,11 @@ export default function Photos(props) {
     React.useEffect(() => {
 
 
-        function handleResize() {
+        function onResize() {
             setColumns(getColumns(sm, md,))
 
         }
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', onResize)
 
     });
 

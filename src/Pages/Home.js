@@ -4,19 +4,25 @@ import Photos from '../Components/Photos'
 
 const api_url = 'http://localhost:3001/pexels'
 
+// Translate curated local storage to boolean
+let curatedInit = true
+(localStorage.getItem('curated') === "false") {
+    curatedInit = false
+}
+
 export default function Home() {
 
     // Component Vars
     const [page, setPage] = useState(parseInt(localStorage.getItem('page')) || 1)
     const [pageCount, setPageCount] = useState(10)
-    // const [query, setQuery] = useState(localStorage.getItem('query') || '')
-    const [query, setQuery] = useState('')
-    const [curated, setCurated] = useState(true)
+    const [query, setQuery] = useState(localStorage.getItem('query') || '')
+    const [curated, setCurated] = useState(curatedInit)
     const [photos, setPhotos] = useState()
 
     // Local
     localStorage.setItem('page', page);
-    // localStorage.setItem('query', query);
+    localStorage.setItem('query', query);
+    localStorage.setItem('curated', curated);
 
     // Dynamically fetch either curated or a search query
     const fetchPhotos = async () => {
