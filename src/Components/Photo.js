@@ -9,7 +9,9 @@ export default function Photo(props) {
     const { src, alt, idx, author, url } = props
 
     return (
-        <ImageListItem key={idx}>
+        <ImageListItem key={idx} style={{
+            height: "30vh",
+        }}>
 
             {!loaded &&
                 <div
@@ -31,6 +33,7 @@ export default function Photo(props) {
                 // srcSet={`${src}?w=248&fit=crop&auto=compress&dpr=2 2x`}
                 alt={alt}
                 loading="lazy"
+                height="30vh"
             />
 
             {loaded &&

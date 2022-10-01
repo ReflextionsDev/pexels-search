@@ -23,7 +23,12 @@ export default function Home() {
 
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(10)
+    
+    const [query, setQuery] = ('')
 
+    const [photos, setPhotos] = useState()
+
+    const [curated, setCurated] = useState(true)
 
     const changePage = (event, value) => {
         console.log(value)
@@ -32,11 +37,22 @@ export default function Home() {
     }
 
 
-    const [photos, setPhotos] = useState()
+   
 
-    const fetchCurated = async () => {
+    const fetchPhotos = async () => {
         try {
-            const response = await fetch(`${domain}/pexels/curated/${page}`, {})
+
+            let request = ''
+
+            if (curated) {
+                request = `${domain}/pexels/curated/${page}`
+            } else {
+                request = `${domain}/pexels/search/${query}/${page}`
+            }
+
+            console.log('REQUEST', request)
+
+            const response = await fetch(request, {})
             let JSON = await response.json()
             setPhotos(JSON.payload.photos)
 
@@ -45,10 +61,12 @@ export default function Home() {
 
             updatePageCount(JSON.payload.total_results, JSON.payload.per_page)
 
+
         } catch (error) {
             console.log('fetch error', error)
         }
     }
+
 
 
     const updatePageCount = (total, perPage) => {
@@ -60,7 +78,7 @@ export default function Home() {
 
 
     useEffect(() => {
-        fetchCurated()
+        fetchPhotos()
     }, [page])
 
 
