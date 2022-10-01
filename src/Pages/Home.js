@@ -5,33 +5,31 @@
 // Scaffold layout
 // Add features
 
+import { Container, Pagination, Box } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import Footer from '../Components/Footer'
+import Header from '../Components/Header'
 import Photos from '../Components/Photos'
 
 
 // Will need to adjust later based on cache
 // Fetch curated on load
 
-
 export default function Home() {
 
-    const dummyPhotos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const [photos, setPhotos] = useState()
 
-
     const fetchCurated = async () => {
-        console.log('hello')
+        try {
+            const response = await fetch('http://localhost:3000/pexels/curated/1', {})
+            let JSON = await response.json()
+            setPhotos(JSON.payload.photos)
 
-        const response = await fetch('http://localhost:3000/pexels/curated/1', {
-        })
-
-        let JSON = await response.json()
-        console.log(JSON.payload.photos)
-
-        setPhotos(JSON.payload.photos)
-        console.log('photos:', photos)
-
-
+            // console.log(JSON.payload.photos)
+            // console.log('photos:', photos)
+        } catch (error) {
+            console.log('fetch error', error)
+        }
     }
 
 
@@ -42,8 +40,9 @@ export default function Home() {
 
     return (
         <div>
-            Home
+            <Header />
             <Photos photos={photos} />
+            <Footer />
         </div>
     )
 }

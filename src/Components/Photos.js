@@ -30,16 +30,18 @@ export default function Photos(props) {
 
 
     // Not workin?
-    React.useEffect(() => {
-        window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
-        console.log('RESIZE')
-    }, []);
+    // React.useEffect(() => {
+    //     window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
+    //     console.log('RESIZE')
+    // }, []);
+
+
 
     console.log('matches?', sm)
     console.log('columns:', getColumns(sm, md, lg))
 
 
-    const [columns, setColumns] = useState((getColumns(sm, md, lg))
+    const [columns] = useState((getColumns(sm, md, lg))
     )
 
 
@@ -52,42 +54,37 @@ export default function Photos(props) {
 
 
     return (
-        <div>
-            <Button variant="contained">Hello World</Button>
+        <Container>
 
-            <Container>
-                {(photos &&
-                    <ImageList cols={columns}  >
 
-                        <ImageListItem key="Subheader" cols={columns}>
-                            <ListSubheader component="div">December</ListSubheader>
-                        </ImageListItem>
+            {(photos &&
+                <ImageList cols={columns}  >
 
-                        {photos.map((photo, idx) => {
+                    {photos.map((photo, idx) => {
 
-                            const props = {
-                                src: photo.src.medium,
-                                alt: photo.alt,
-                                idx: idx,
-                                author: photo.photographer,
-                                url: photo.photographer_url,
-                            }
+                        const props = {
+                            src: photo.src.medium,
+                            alt: photo.alt,
+                            idx: idx,
+                            author: photo.photographer,
+                            url: photo.photographer_url,
+                        }
 
-                            return <Photo {...props} key={idx} />
+                        return <Photo {...props} key={idx} />
 
-                        })}
-                    </ImageList>
+                    })}
+                </ImageList>
 
-                ) ||
-                    <div
-                        style={{
-                            height: "80vh",
-                        }}
-                    >
-                        <Skeleton height="100%" />
-                    </div>
-                }
+            ) ||
+                <div
+                    style={{
+                        height: "80vh",
+                    }}
+                >
+                    <Skeleton height="100%" />
+                </div>
+            }
+
             </Container>
-        </div>
     )
 }

@@ -5,13 +5,13 @@ import { ImageListItem, ImageListItemBar, Link } from '@mui/material';
 
 export default function Photo(props) {
 
-    const [loading, setLoading] = useState(true)
+    const [loaded, setLoaded] = useState(false)
     const { src, alt, idx, author, url } = props
 
     return (
         <ImageListItem key={idx}>
 
-            {loading &&
+            {!loaded &&
                 <div
                     style={{
                         height: "100%",
@@ -24,15 +24,16 @@ export default function Photo(props) {
             }
 
             <img
-                onLoad={() => { setLoading(false) }}
-                style={{ display: loading ? 'none' : undefined }}
-                src={`${src}?w=248&fit=crop&auto=format`}
-                srcSet={`${src}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                style={{ display: loaded ? 'block' : 'none' }}
+                onLoad={() => { setLoaded(true) }}
+                src={src}
+                // src={`${src}?w=248&fit=crop&auto=compress`}
+                // srcSet={`${src}?w=248&fit=crop&auto=compress&dpr=2 2x`}
                 alt={alt}
                 loading="lazy"
             />
 
-            {!loading &&
+            {loaded &&
                 <ImageListItemBar
                     title={`${author || ''}`}
                     subtitle=
