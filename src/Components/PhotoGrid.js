@@ -13,7 +13,7 @@ function getColumns(sm, md) {
 }
 
 // Photos manages a responsive MUI ImageList, populating when loaded or displaying a skeleton loader 
-export default function Photos(props) {
+export default function PhotoGrid(props) {
 
     // Breakpoint Queries
     const theme = useTheme()
