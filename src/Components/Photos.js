@@ -1,15 +1,7 @@
-// rename to grid or smth
-
 import React, { useState, useEffect } from 'react'
+
 import Photo from './Photo'
-
-import Button from '@mui/material/Button';
-import { ImageList, Container, Link, useMediaQuery } from '@mui/material';
-
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-
+import { Button, ImageList, Container, ImageListItem, ListSubheader, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // import IconButton from '@mui/material/IconButton';
@@ -18,9 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-
 function getColumns(sm, md, lg) {
- 
     if (sm) { return 2 }
     else if (md) { return 3 }
     else if (lg) { return 4 }
@@ -32,7 +22,6 @@ function getColumns(sm, md, lg) {
 
 export default function Photos(props) {
 
-
     // put into getColumns?
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
@@ -40,7 +29,7 @@ export default function Photos(props) {
     const lg = useMediaQuery(theme.breakpoints.down('lg'));
 
 
-
+    // Not workin?
     React.useEffect(() => {
         window.addEventListener("resize", setColumns(getColumns(sm, md, lg)), false);
         console.log('RESIZE')
@@ -63,49 +52,33 @@ export default function Photos(props) {
 
 
     return (
-
-
         <div>
-
             <Button variant="contained">Hello World</Button>
 
             <Container>
+                {(photos &&
+                    <ImageList cols={columns}  >
 
+                        <ImageListItem key="Subheader" cols={columns}>
+                            <ListSubheader component="div">December</ListSubheader>
+                        </ImageListItem>
 
-                {
-                    (
-                        photos
-                        &&
+                        {photos.map((photo, idx) => {
 
-                        <ImageList cols={columns}  >
-
-                            <ImageListItem key="Subheader" cols={columns}>
-                                <ListSubheader component="div">December</ListSubheader>
-                            </ImageListItem>
-
-                            {photos.map((photo, idx) => {
-
-                                const props = {
-                                    src: photo.src.medium,
-                                    alt: photo.alt,
-                                    idx: idx,
-                                    author: photo.photographer,
-                                    url: photo.photographer_url,
-                                }
-
-                                return <Photo {...props} key={idx}/>
-
+                            const props = {
+                                src: photo.src.medium,
+                                alt: photo.alt,
+                                idx: idx,
+                                author: photo.photographer,
+                                url: photo.photographer_url,
                             }
 
-                            )
-                            }
-                        </ImageList>
+                            return <Photo {...props} key={idx} />
 
+                        })}
+                    </ImageList>
 
-                    )
-
-                    ||
-
+                ) ||
                     <div
                         style={{
                             height: "80vh",
@@ -114,11 +87,7 @@ export default function Photos(props) {
                         <Skeleton height="100%" />
                     </div>
                 }
-
-
             </Container>
-
-
         </div>
     )
 }

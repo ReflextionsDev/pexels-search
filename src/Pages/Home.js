@@ -9,9 +9,6 @@ import React, { useEffect, useState } from 'react'
 import Photos from '../Components/Photos'
 
 
-
-
-
 // Will need to adjust later based on cache
 // Fetch curated on load
 
