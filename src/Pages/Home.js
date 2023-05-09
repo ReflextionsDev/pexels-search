@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Pagination, Box, Button, TextField, Stack, } from '@mui/material'
 import PhotoGrid from '../Components/PhotoGrid'
 
-const api_url = 'http://localhost:3001/pexels'
+// const api_url = 'http://localhost:3001/pexels'
+const api_url = 'https://rtt.constructsnippets.com/pexels/'
 
 // Translate curated local storage to boolean
 let curatedInit = (localStorage.getItem('curated') === "false") ? false : true
