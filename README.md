@@ -16,3 +16,6 @@ A simple web page built w/ React to interface with the pexels API. Supports cura
 1. [React](https://reactjs.org/docs/getting-started.html)
 2. [MUI / emotion](https://mui.com/material-ui/getting-started/overview/)
 3. [react-loading-skeleton](https://www.npmjs.com/package/react-loading-skeleton)
+
+## Images
+![preview image](./preview.png)
